@@ -1,10 +1,22 @@
 import { Route, Routes } from "react-router-dom";
 import { Home } from "../pages/Home/Home";
+import { Production } from "../pages/Production/Production";
+import { Peripherals } from "../pages/Peripherals/Peripherals";
+import { Offices } from "../pages/Offices/Offices";
 
 export const MyRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+
+      {/* Produccion */}
+      <Route path="/formulario-produccion" element={<Production />} />
+
+      {/* Perifericas */}
+      <Route path="/formulario-perifericas" element={<Peripherals />} />
+
+      {/* Oficinas */}
+      <Route path="/formulario-oficinas" element={<Offices />} />
     </Routes>
   );
 };
