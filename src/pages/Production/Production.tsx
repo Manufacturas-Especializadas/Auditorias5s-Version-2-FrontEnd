@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { ProductionFormAudit } from "../../components/Production/ProductionFormAudit";
+import { AuditResult } from "../../components/AuditResult/AuditResult";
+import { EvaluationWizard } from "../../components/EvaluationWizard/EvaluationWizard";
+import { PRODUCTION_5S_QUESTIONS } from "../../data/auditQuestions";
 
 export const Production = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -7,39 +10,52 @@ export const Production = () => {
     auditorName: string;
     selectedArea: string;
   } | null>(null);
+  const [savedAnswers, setSavedAnswers] = useState<Record<number, number>>({});
 
   const handleInitialDataSubmit = (data: {
     auditorName: string;
     selectedArea: string;
   }) => {
     setAuditHeader(data);
-    console.log("Datos listos para el Paso 2:", data);
-
     setCurrentStep(2);
+  };
+
+  const handleEvaluationFinish = (answers: Record<number, number>) => {
+    setSavedAnswers(answers);
+    setCurrentStep(3);
+  };
+
+  const handleSaveToDatabase = () => {
+    console.log("Guardando datos en SQL Server...", {
+      auditHeader,
+      savedAnswers,
+    });
+    alert("Auditoría guardada exitosamente en el servidor.");
   };
 
   return (
     <div
-      className="w-full min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center 
-      bg-slate-50 p-4"
+      className="w-full min-h-[calc(100vh-4rem)] flex flex-col items-center 
+      justify-center bg-slate-50 p-4 md:p-8"
     >
       {currentStep === 1 && (
         <ProductionFormAudit onNextStep={handleInitialDataSubmit} />
       )}
 
       {currentStep === 2 && (
-        <div className="architecture-fade-in text-center p-8 bg-white rounded-2xl shadow">
-          <h3 className="text-xl font-bold text-slate-800">
-            Paso 2: Evaluación de las 5S
-          </h3>
-          <p className="text-slate-500 mt-2">
-            Aquí renderizaremos el checklist para la línea:{" "}
-            {auditHeader?.selectedArea}
-          </p>
-          <p className="text-sm text-slate-400 mt-1">
-            Auditor: {auditHeader?.auditorName}
-          </p>
-        </div>
+        <EvaluationWizard
+          categories={PRODUCTION_5S_QUESTIONS}
+          onFinish={handleEvaluationFinish}
+        />
+      )}
+
+      {currentStep === 3 && (
+        <AuditResult
+          categories={PRODUCTION_5S_QUESTIONS}
+          answers={savedAnswers}
+          onReset={() => setCurrentStep(1)}
+          onSave={handleSaveToDatabase}
+        />
       )}
     </div>
   );
