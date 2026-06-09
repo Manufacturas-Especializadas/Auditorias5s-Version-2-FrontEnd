@@ -1,16 +1,30 @@
 import { Factory, Wrench, Building2 } from "lucide-react";
 import { ModuelCard } from "../../components/ModuleCard/ModuelCard";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const modules = [
-    { id: "produccion", title: "Producción", icon: Factory },
-    { id: "perifericas", title: "Periféricas", icon: Wrench },
-    { id: "oficinas", title: "Oficinas", icon: Building2 },
+    {
+      id: "produccion",
+      title: "Producción",
+      icon: Factory,
+      path: "/formulario-produccion",
+    },
+    {
+      id: "perifericas",
+      title: "Periféricas",
+      icon: Wrench,
+      path: "/formulario-perifericas",
+    },
+    {
+      id: "oficinas",
+      title: "Oficinas",
+      icon: Building2,
+      path: "/formulario-oficinas",
+    },
   ];
 
-  const handleModuleSelect = (id: string) => {
-    console.log(`Módulo seleccionado: ${id}`);
-  };
+  const navigate = useNavigate();
 
   return (
     <div
@@ -38,7 +52,7 @@ export const Home = () => {
               key={module.id}
               title={module.title}
               icon={module.icon}
-              onClick={() => handleModuleSelect(module.id)}
+              onClick={() => navigate(module.path)}
             />
           ))}
         </main>
