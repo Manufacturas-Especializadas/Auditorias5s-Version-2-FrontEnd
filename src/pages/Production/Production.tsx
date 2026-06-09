@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProductionForm } from "../../components/Production/ProductionForm";
+import { ProductionFormAudit } from "../../components/Production/ProductionFormAudit";
 
 export const Production = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -24,7 +24,7 @@ export const Production = () => {
       bg-slate-50 p-4"
     >
       {currentStep === 1 && (
-        <ProductionForm onNextStep={handleInitialDataSubmit} />
+        <ProductionFormAudit onNextStep={handleInitialDataSubmit} />
       )}
 
       {currentStep === 2 && (
