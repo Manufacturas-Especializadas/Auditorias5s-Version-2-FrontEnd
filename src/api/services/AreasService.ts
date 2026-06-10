@@ -4,9 +4,24 @@ import { apiClient } from "../client";
 
 class AreasServices {
   private createEndpoint = API_CONFIG.endpoints.areas.create;
+  private updateEndpoint = API_CONFIG.endpoints.areas.update;
 
   async create(data: CreateAreas): Promise<void> {
     return apiClient.post<void>(this.createEndpoint, data);
+  }
+
+  async update(
+    areaId: number,
+    moduleId: number,
+    name: string,
+    isActive: boolean,
+  ): Promise<any> {
+    return apiClient.put<any>(this.updateEndpoint, {
+      areaId,
+      moduleId,
+      name,
+      isActive,
+    });
   }
 }
 
