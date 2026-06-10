@@ -9,6 +9,7 @@ export const API_CONFIG = {
   endpoints: {
     modules: {
       getAll: "/api/Modules/all",
+      create: "/api/Modules/create",
     },
     areas: {
       create: "/api/Areas/create",
