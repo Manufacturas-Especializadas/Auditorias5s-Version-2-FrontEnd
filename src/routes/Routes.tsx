@@ -3,6 +3,7 @@ import { Home } from "../pages/Home/Home";
 import { Production } from "../pages/Production/Production";
 import { Peripherals } from "../pages/Peripherals/Peripherals";
 import { Offices } from "../pages/Offices/Offices";
+import { Admin } from "../pages/Admin/Admin";
 
 export const MyRoutes = () => {
   return (
@@ -17,6 +18,9 @@ export const MyRoutes = () => {
 
       {/* Oficinas */}
       <Route path="/formulario-oficinas" element={<Offices />} />
+
+      {/* Administrador */}
+      <Route path="/administrador" element={<Admin />} />
     </Routes>
   );
 };
