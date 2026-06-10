@@ -17,6 +17,7 @@ export const API_CONFIG = {
       getById: "/api/Areas/areas/",
       create: "/api/Areas/create",
       update: "/api/Areas/update",
+      delete: "/api/Areas/delete/",
     },
   },
 };
