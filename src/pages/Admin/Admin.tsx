@@ -6,6 +6,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { AdminCard } from "../../components/AdminCard/AdminCard";
+import { useNavigate } from "react-router-dom";
 
 export const Admin = () => {
   const managementModules = [
@@ -15,6 +16,7 @@ export const Admin = () => {
       description:
         "Configura y edita los módulos globales (Producción, Periféricas, Oficinas).",
       icon: LayoutGrid,
+      path: "/administrador/modulos",
     },
     {
       id: "areas",
@@ -22,6 +24,7 @@ export const Admin = () => {
       description:
         "Da de alta, edita y liga las líneas de manufactura o departamentos a sus respectivos módulos.",
       icon: Layers,
+      path: "",
     },
     {
       id: "questions",
@@ -29,6 +32,7 @@ export const Admin = () => {
       description:
         "Administra el catálogo de preguntas dinámicas asignándolas por módulo y tipo de S.",
       icon: HelpCircle,
+      path: "",
     },
     {
       id: "auditors",
@@ -36,13 +40,11 @@ export const Admin = () => {
       description:
         "Gestiona el personal autorizado para realizar los levantamientos de auditorías en planta.",
       icon: Users,
+      path: "",
     },
   ];
 
-  const handleNavigation = (targetId: string) => {
-    console.log(`Navegando al panel de control de: ${targetId}`);
-    // navigate(`/admin/${targetId}`);
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-50 px-6 py-12 antialiased">
@@ -80,7 +82,7 @@ export const Admin = () => {
               title={module.title}
               description={module.description}
               icon={module.icon}
-              onClick={() => handleNavigation(module.id)}
+              onClick={() => navigate(module.path)}
             />
           ))}
         </main>
