@@ -1,10 +1,19 @@
-import { Edit2, LayoutGrid, Loader2, Plus, Save, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Edit2,
+  LayoutGrid,
+  Loader2,
+  Plus,
+  Save,
+  Trash2,
+} from "lucide-react";
 import { useState, type SyntheticEvent } from "react";
 import { Table, type Column } from "../../../components/Table/Table";
 import { useModules } from "../../../hooks/useModules";
 import type { AllModule } from "../../../types/Types";
 import { Modal } from "../../../components/Modal/Modal";
 import InputField from "../../../components/Inputs/InputField";
+import { useNavigate } from "react-router-dom";
 
 export const Modules = () => {
   const { modules, loading, createModule, updateModule, deleteModule } =
@@ -15,6 +24,8 @@ export const Modules = () => {
   const [newModuleName, setNewModuleName] = useState("");
   const [selectedModule, setSelectedModule] = useState<AllModule | null>(null);
   const [editModuleName, setEditModuleName] = useState("");
+
+  const navigate = useNavigate();
 
   const handleCreateSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -143,6 +154,15 @@ export const Modules = () => {
         </header>
 
         <main className="relative">
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="text-slate-500 hover:text-blue-600 flex items-center 
+          gap-2 mb-4 transition-colors font-medium text-sm cursor-pointer"
+          >
+            <ArrowLeft size={20} />
+            Volver
+          </button>
           {loading ? (
             <div className="flex items-center justify-center py-20 text-slate-500 gap-2 font-medium">
               <Loader2 className="animate-spin text-slate-700" size={20} />
