@@ -4,6 +4,10 @@ export interface AllModule {
   name: string;
 }
 
+export interface CreateModule {
+  name: string;
+}
+
 export interface CreateAreas {
   moduleId: number;
   name: string;
