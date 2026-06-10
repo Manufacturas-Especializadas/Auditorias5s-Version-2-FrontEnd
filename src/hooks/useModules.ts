@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import type { AllModule, CreateModule } from "../types/Types";
+import type { AllModule } from "../types/Types";
 import { moduleService } from "../api/services/ModuleService";
 import { toast } from "sonner";
 
@@ -22,21 +22,20 @@ export const useModules = () => {
     }
   }, []);
 
-  const createModule = async (data: CreateModule) => {
-    const promise = moduleService.create(data);
+  const createModule = async (name: string) => {
+    const promise = moduleService.create(name);
 
     toast.promise(promise, {
-      loading: "Registrando nuevo modulo...",
+      loading: "Registrando nuevo módulo...",
       success: () => {
         fetchModules();
-        return `Modulo "${data}" creado exitosamente`;
+        return `Módulo "${name}" creado exitosamente.`;
       },
-      error: "Error al crear el módulo. Intenta de nuevo",
+      error: "Error al crear el módulo. Intenta de nuevo.",
     });
 
     try {
       await promise;
-
       return { success: true };
     } catch (err) {
       return { success: false };
