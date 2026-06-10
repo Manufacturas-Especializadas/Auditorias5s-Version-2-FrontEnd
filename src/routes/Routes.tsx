@@ -4,6 +4,7 @@ import { Production } from "../pages/Production/Production";
 import { Peripherals } from "../pages/Peripherals/Peripherals";
 import { Offices } from "../pages/Offices/Offices";
 import { Admin } from "../pages/Admin/Admin";
+import { Modules } from "../pages/Admin/Modules/Modules";
 
 export const MyRoutes = () => {
   return (
@@ -21,6 +22,7 @@ export const MyRoutes = () => {
 
       {/* Administrador */}
       <Route path="/administrador" element={<Admin />} />
+      <Route path="/administrador/modulos" element={<Modules />} />
     </Routes>
   );
 };
