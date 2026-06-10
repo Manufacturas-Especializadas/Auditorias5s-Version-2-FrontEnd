@@ -16,6 +16,7 @@ export const API_CONFIG = {
     areas: {
       getById: "/api/Areas/areas/",
       create: "/api/Areas/create",
+      update: "/api/Areas/update",
     },
   },
 };
