@@ -11,6 +11,7 @@ export const API_CONFIG = {
       getAll: "/api/Modules/all",
       create: "/api/Modules/create",
       update: "/api/Modules/update",
+      delete: "/api/Modules/delete/",
     },
     areas: {
       create: "/api/Areas/create",
