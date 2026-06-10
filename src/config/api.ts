@@ -7,6 +7,9 @@ if (!API_BASE_URL) {
 export const API_CONFIG = {
   baseUrl: API_BASE_URL,
   endpoints: {
+    modules: {
+      getAll: "/api/Modules/all",
+    },
     areas: {
       create: "/api/Areas/create",
     },
