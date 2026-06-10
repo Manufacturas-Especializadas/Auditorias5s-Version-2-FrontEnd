@@ -42,6 +42,26 @@ export const useModules = () => {
     }
   };
 
+  const updateModule = async (id: number, name: string, isActive: boolean) => {
+    const promise = moduleService.update(id, name, isActive);
+
+    toast.promise(promise, {
+      loading: "Actualizando información en el servidor...",
+      success: () => {
+        fetchModules();
+        return `Módulo actualizado correctamente.`;
+      },
+      error: "No se pudieron guardar los cambios.",
+    });
+
+    try {
+      await promise;
+      return { success: true };
+    } catch (err) {
+      return { success: false };
+    }
+  };
+
   useEffect(() => {
     fetchModules();
   }, [fetchModules]);
@@ -51,5 +71,6 @@ export const useModules = () => {
     loading,
     error,
     createModule,
+    updateModule,
   };
 };
