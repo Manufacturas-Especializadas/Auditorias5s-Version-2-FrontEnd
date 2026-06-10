@@ -6,6 +6,7 @@ class ModuleServce {
   private getAllEndpoint = API_CONFIG.endpoints.modules.getAll;
   private createEndpoint = API_CONFIG.endpoints.modules.create;
   private updateEndpoint = API_CONFIG.endpoints.modules.update;
+  private deleteEndpoint = API_CONFIG.endpoints.modules.delete;
 
   async getAll(): Promise<AllModule[]> {
     return apiClient.get<AllModule[]>(this.getAllEndpoint);
@@ -25,6 +26,10 @@ class ModuleServce {
       name,
       isActive,
     });
+  }
+
+  async delete(id: number): Promise<any> {
+    return apiClient.delete<any>(`${this.deleteEndpoint}${id}`);
   }
 }
 
