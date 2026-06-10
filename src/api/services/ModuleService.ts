@@ -1,5 +1,5 @@
 import { API_CONFIG } from "../../config/api";
-import type { AllModule, CreateModule } from "../../types/Types";
+import type { AllModule } from "../../types/Types";
 import { apiClient } from "../client";
 
 class ModuleServce {
@@ -10,8 +10,8 @@ class ModuleServce {
     return apiClient.get<AllModule[]>(this.getAllEndpoint);
   }
 
-  async create(data: CreateModule): Promise<void> {
-    return apiClient.post<void>(this.createEndpoint, data);
+  async create(name: string): Promise<any> {
+    return apiClient.post<any>(this.createEndpoint, { name });
   }
 }
 
