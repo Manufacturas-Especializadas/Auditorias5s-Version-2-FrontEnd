@@ -5,6 +5,7 @@ import { apiClient } from "../client";
 class AreasServices {
   private createEndpoint = API_CONFIG.endpoints.areas.create;
   private updateEndpoint = API_CONFIG.endpoints.areas.update;
+  private deleteEndpoint = API_CONFIG.endpoints.areas.delete;
 
   async create(data: CreateAreas): Promise<void> {
     return apiClient.post<void>(this.createEndpoint, data);
@@ -22,6 +23,10 @@ class AreasServices {
       name,
       isActive,
     });
+  }
+
+  async delete(id: number): Promise<any> {
+    return apiClient.delete<any>(`${this.deleteEndpoint}${id}`);
   }
 }
 
