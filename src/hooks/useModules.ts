@@ -62,6 +62,26 @@ export const useModules = () => {
     }
   };
 
+  const deleteModule = async (id: number, moduleName: string) => {
+    const promise = moduleService.delete(id);
+
+    toast.promise(promise, {
+      loading: "Desactivando módulo...",
+      success: () => {
+        fetchModules();
+        return `El módulo "${moduleName}" ha sido dado de baja de forma segura.`;
+      },
+      error: "Error al intentar desactivar el módulo.",
+    });
+
+    try {
+      await promise;
+      return { success: true };
+    } catch (err) {
+      return { success: false };
+    }
+  };
+
   useEffect(() => {
     fetchModules();
   }, [fetchModules]);
@@ -72,5 +92,6 @@ export const useModules = () => {
     error,
     createModule,
     updateModule,
+    deleteModule,
   };
 };
