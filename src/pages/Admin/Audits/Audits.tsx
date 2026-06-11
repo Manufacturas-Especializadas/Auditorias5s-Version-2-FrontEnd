@@ -2,15 +2,18 @@ import { useState } from "react";
 import { useAuditHistory } from "../../../hooks/useAuditHistory";
 import { Table, type Column } from "../../../components/Table/Table";
 import type { AuditHistory } from "../../../types/Types";
-import { Download, Loader2 } from "lucide-react";
+import { ArrowLeft, Download, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { auditService } from "../../../api/services/AuditService";
+import { useNavigate } from "react-router-dom";
 
 export const Audits = () => {
   const { history, loading } = useAuditHistory();
 
   const [filterAuditor, setFilterAuditor] = useState("");
   const [filterDate, setFilterDate] = useState("");
+
+  const navigate = useNavigate();
 
   const filteredData = history.filter((audit) => {
     const matchesAuditor = audit.auditorName
@@ -138,6 +141,16 @@ export const Audits = () => {
           />
         </div>
       </div>
+
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className="text-slate-500 hover:text-blue-600 flex items-center 
+          gap-2 mb-4 transition-colors font-medium text-sm cursor-pointer"
+      >
+        <ArrowLeft size={20} />
+        Volver
+      </button>
 
       {loading ? (
         <div className="flex items-center justify-center py-20 text-slate-500 gap-2">
