@@ -19,3 +19,8 @@ export interface AllAreas {
   isActive: boolean;
   moduleId: number;
 }
+
+export interface AllQuestions {
+  id: number;
+  text: string;
+}
