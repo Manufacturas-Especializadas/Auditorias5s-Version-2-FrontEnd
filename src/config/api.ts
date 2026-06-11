@@ -25,5 +25,10 @@ export const API_CONFIG = {
       update: "/api/Questions/update",
       delete: "/api/Questions/delete/",
     },
+    auditors: {
+      getAll: "/api/Auditors/getAll",
+      create: "/api/Auditors/create",
+      delete: "/api/Auditors/delete/",
+    },
   },
 };
