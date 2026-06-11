@@ -20,7 +20,22 @@ export interface AllAreas {
   moduleId: number;
 }
 
-export interface AllQuestions {
+export interface AllQuestion {
   id: number;
+  moduleId: number;
+  categoryId: number;
   text: string;
+  displayOrder: number;
+  isActive: boolean;
+}
+
+export interface BackendGroupedQuestions {
+  key: string;
+  title: string;
+  questions: {
+    id: number;
+    text: string;
+    displayOrder?: number;
+    isActive?: boolean;
+  }[];
 }
