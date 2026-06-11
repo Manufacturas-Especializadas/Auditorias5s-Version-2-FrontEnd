@@ -1,5 +1,5 @@
 import { API_CONFIG } from "../../config/api";
-import type { AllQuestions } from "../../types/Types";
+import type { BackendGroupedQuestions } from "../../types/Types";
 import { apiClient } from "../client";
 
 class QuestionsService {
@@ -8,8 +8,10 @@ class QuestionsService {
   private updateEndpoint = API_CONFIG.endpoints.questions.update;
   private deleteEndpoint = API_CONFIG.endpoints.questions.delete;
 
-  async getByModule(id: number): Promise<AllQuestions[]> {
-    return apiClient.get<AllQuestions[]>(`${this.getByModuleEndpoint}${id}`);
+  async getByModuleGrouped(id: number): Promise<BackendGroupedQuestions[]> {
+    return apiClient.get<BackendGroupedQuestions[]>(
+      `${this.getByModuleEndpoint}${id}`,
+    );
   }
 
   async create(
