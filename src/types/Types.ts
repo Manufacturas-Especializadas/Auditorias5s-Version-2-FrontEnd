@@ -39,3 +39,9 @@ export interface BackendGroupedQuestions {
     isActive?: boolean;
   }[];
 }
+
+export interface AllAuditor {
+  auditorId: number;
+  fullName: string;
+  isActive: boolean;
+}
