@@ -7,6 +7,7 @@ import { Admin } from "../pages/Admin/Admin";
 import { Modules } from "../pages/Admin/Modules/Modules";
 import { Areas } from "../pages/Admin/Areas/Areas";
 import { Questions } from "../pages/Admin/Questions/Questions";
+import { Auditors } from "../pages/Admin/Auditors/Auditors";
 
 export const MyRoutes = () => {
   return (
@@ -27,6 +28,7 @@ export const MyRoutes = () => {
       <Route path="/administrador/modulos" element={<Modules />} />
       <Route path="/administrador/areas" element={<Areas />} />
       <Route path="/administrador/preguntas" element={<Questions />} />
+      <Route path="/administrador/auditores" element={<Auditors />} />
     </Routes>
   );
 };
