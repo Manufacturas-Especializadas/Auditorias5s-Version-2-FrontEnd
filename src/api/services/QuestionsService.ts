@@ -18,13 +18,11 @@ class QuestionsService {
     moduleId: number,
     categoryId: number,
     questionText: string,
-    displayOrder: number,
   ): Promise<any> {
     return apiClient.post<any>(this.createEndpoint, {
       moduleId,
       categoryId,
       questionText,
-      displayOrder,
     });
   }
 
