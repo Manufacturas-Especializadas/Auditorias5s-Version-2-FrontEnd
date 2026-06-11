@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type SyntheticEvent } from "react";
 import { Plus, Trash2, Users, Loader2, ArrowLeft } from "lucide-react";
 import { useAuditors } from "../../../hooks/useAuditors";
 import { Table, type Column } from "../../../components/Table/Table";
@@ -14,7 +14,7 @@ export const Auditors = () => {
   const [fullName, setFullName] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!fullName.trim()) return;
 
