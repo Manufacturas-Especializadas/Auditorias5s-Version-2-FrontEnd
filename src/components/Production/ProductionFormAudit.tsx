@@ -1,7 +1,8 @@
 import React, { useState, type SyntheticEvent } from "react";
 import { useAreas } from "../../hooks/useAreas";
 import { useAuditors } from "../../hooks/useAuditors";
-import { Loader2, ArrowRight } from "lucide-react";
+import { Loader2, ArrowRight, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface ProductionFormProps {
   onNextStep: (data: { auditorId: number; areaId: number }) => void;
@@ -15,6 +16,8 @@ export const ProductionFormAudit: React.FC<ProductionFormProps> = ({
 
   const [selectedAuditorId, setSelectedAuditorId] = useState<number | "">("");
   const [selectedAreaId, setSelectedAreaId] = useState<number | "">("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -105,6 +108,16 @@ export const ProductionFormAudit: React.FC<ProductionFormProps> = ({
         >
           Comenzar Evaluación
           <ArrowRight size={16} />
+        </button>
+
+        <button
+          onClick={() => navigate("/")}
+          className="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-5 
+          rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-sm 
+          disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        >
+          Salir
+          <ArrowLeft size={16} />
         </button>
       </form>
     </div>
