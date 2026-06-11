@@ -16,4 +16,6 @@ export interface CreateAreas {
 export interface AllAreas {
   areaId: number;
   name: string;
+  isActive: boolean;
+  moduleId: number;
 }
