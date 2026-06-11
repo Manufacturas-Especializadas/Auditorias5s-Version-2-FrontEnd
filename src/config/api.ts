@@ -19,5 +19,11 @@ export const API_CONFIG = {
       update: "/api/Areas/update",
       delete: "/api/Areas/delete/",
     },
+    questions: {
+      getModule: "/api/Questions/module/",
+      create: "/api/Questions/create",
+      update: "/api/Questions/update",
+      delete: "/api/Questions/delete/",
+    },
   },
 };
