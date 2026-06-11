@@ -36,14 +36,22 @@ class QuestionsService {
     displayOrder: number,
     isActive: boolean,
   ): Promise<any> {
-    return apiClient.put<any>(this.updateEndpoint, {
-      questionId,
-      moduleId,
-      categoryId,
-      questionText,
-      displayOrder,
-      isActive,
-    });
+    return apiClient.put<any>(
+      this.updateEndpoint,
+      {
+        questionId,
+        moduleId,
+        categoryId,
+        questionText,
+        displayOrder,
+        isActive,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
   }
 
   async delete(questionId: number): Promise<any> {
