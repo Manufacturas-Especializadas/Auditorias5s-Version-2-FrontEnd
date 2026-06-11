@@ -63,14 +63,8 @@ export const useQuestions = (selectedModuleFilter: number) => {
     moduleId: number,
     categoryId: number,
     questionText: string,
-    displayOrder: number,
   ) => {
-    const promise = questionsService.create(
-      moduleId,
-      categoryId,
-      questionText,
-      displayOrder,
-    );
+    const promise = questionsService.create(moduleId, categoryId, questionText);
     toast.promise(promise, {
       loading: "Guardando nueva pregunta...",
       success: () => {
