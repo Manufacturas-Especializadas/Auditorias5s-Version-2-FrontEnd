@@ -60,12 +60,7 @@ export const Questions = () => {
     if (!questionText.trim() || !targetModuleId || !categoryId) return;
 
     try {
-      await createQuestion(
-        targetModuleId,
-        categoryId,
-        questionText,
-        displayOrder,
-      );
+      await createQuestion(targetModuleId, categoryId, questionText);
       resetForm();
       setIsCreateOpen(false);
     } catch {}
