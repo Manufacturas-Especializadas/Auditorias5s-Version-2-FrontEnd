@@ -3,6 +3,8 @@ import { useAuditHistory } from "../../../hooks/useAuditHistory";
 import { Table, type Column } from "../../../components/Table/Table";
 import type { AuditHistory } from "../../../types/Types";
 import { Download, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { auditService } from "../../../api/services/AuditService";
 
 export const Audits = () => {
   const { history, loading } = useAuditHistory();
@@ -20,10 +22,30 @@ export const Audits = () => {
     return matchesAuditor && matchesDate;
   });
 
-  const handleDownloadExcel = (auditId: number) => {
-    console.log(
-      `Disparando exportación a Excel para la auditoría ID: ${auditId}`,
-    );
+  const handleDownloadExcel = async (auditId: number) => {
+    const downloadPromise = async () => {
+      const blobData = await auditService.downloadExcelReport(auditId);
+
+      const url = window.URL.createObjectURL(blobData);
+      const link = document.createElement("a");
+      link.href = url;
+
+      link.setAttribute(
+        "download",
+        `Reporte_Auditoria_5S_MESA_${auditId}.xlsx`,
+      );
+      document.body.appendChild(link);
+      link.click();
+
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    };
+
+    toast.promise(downloadPromise(), {
+      loading: "Compilando celdas y aplicando estilos corporativos...",
+      success: "Reporte Excel generado y descargado con éxito.",
+      error: "Error al procesar el archivo en el servidor.",
+    });
   };
 
   const columns: Column<AuditHistory>[] = [
