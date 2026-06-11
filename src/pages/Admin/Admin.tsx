@@ -32,7 +32,7 @@ export const Admin = () => {
       description:
         "Administra el catálogo de preguntas dinámicas asignándolas por módulo y tipo de S.",
       icon: HelpCircle,
-      path: "",
+      path: "/administrador/preguntas",
     },
     {
       id: "auditors",
@@ -40,7 +40,7 @@ export const Admin = () => {
       description:
         "Gestiona el personal autorizado para realizar los levantamientos de auditorías en planta.",
       icon: Users,
-      path: "",
+      path: "/administrador/auditores",
     },
   ];
 

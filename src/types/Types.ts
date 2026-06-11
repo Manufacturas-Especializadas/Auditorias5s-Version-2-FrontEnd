@@ -19,3 +19,29 @@ export interface AllAreas {
   isActive: boolean;
   moduleId: number;
 }
+
+export interface AllQuestion {
+  id: number;
+  moduleId: number;
+  categoryId: number;
+  text: string;
+  displayOrder: number;
+  isActive: boolean;
+}
+
+export interface BackendGroupedQuestions {
+  key: string;
+  title: string;
+  questions: {
+    id: number;
+    text: string;
+    displayOrder?: number;
+    isActive?: boolean;
+  }[];
+}
+
+export interface AllAuditor {
+  auditorId: number;
+  fullName: string;
+  isActive: boolean;
+}
