@@ -4,14 +4,20 @@ import { useAuditors } from "../../hooks/useAuditors";
 import { Loader2, ArrowRight, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-interface ProductionFormProps {
+interface GenericFormProps {
+  moduleId: number;
+  title: string;
+  subtitle: string;
   onNextStep: (data: { auditorId: number; areaId: number }) => void;
 }
 
-export const ProductionFormAudit: React.FC<ProductionFormProps> = ({
+export const GenericFormAudit: React.FC<GenericFormProps> = ({
+  moduleId,
+  title,
+  subtitle,
   onNextStep,
 }) => {
-  const { areas, loading: loadingAreas } = useAreas(1);
+  const { areas, loading: loadingAreas } = useAreas(moduleId);
   const { auditors, loading: loadingAuditors } = useAuditors();
 
   const [selectedAuditorId, setSelectedAuditorId] = useState<number | "">("");
@@ -33,23 +39,21 @@ export const ProductionFormAudit: React.FC<ProductionFormProps> = ({
     return (
       <div className="flex items-center justify-center py-20 text-slate-500 gap-2 font-medium">
         <Loader2 className="animate-spin text-slate-700" size={20} />
-        Cargando catálogos de producción...
+        Cargando catálogos del módulo...
       </div>
     );
   }
 
   return (
     <div
-      className="w-full max-w-xl bg-white rounded-2xl shadow-xl border border-gray-100 p-6 
-      md:p-8 text-left architecture-fade-in"
+      className="w-full max-w-xl bg-white rounded-2xl shadow-xl border border-gray-100 
+      p-6 md:p-8 text-left architecture-fade-in"
     >
       <header className="mb-6 space-y-1">
         <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-          Nueva auditoría para producción
+          {title}
         </h2>
-        <p className="text-slate-500 text-sm">
-          Por favor ingresa los datos correspondientes a la línea de manufactura
-        </p>
+        <p className="text-slate-500 text-sm">{subtitle}</p>
       </header>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -78,7 +82,7 @@ export const ProductionFormAudit: React.FC<ProductionFormProps> = ({
 
         <div className="flex flex-col space-y-1.5">
           <label className="text-xs font-bold text-slate-500 uppercase tracking-wider pl-1">
-            Área a auditar *
+            Área / Departamento a auditar *
           </label>
           <select
             required
@@ -86,11 +90,9 @@ export const ProductionFormAudit: React.FC<ProductionFormProps> = ({
             onChange={(e) =>
               setSelectedAreaId(e.target.value ? Number(e.target.value) : "")
             }
-            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl 
-            text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-slate-700 
-            cursor-pointer"
+            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-slate-700 cursor-pointer"
           >
-            <option value="">Selecciona una línea</option>
+            <option value="">Selecciona una opción</option>
             {areas.map((area) => (
               <option key={area.areaId} value={area.areaId}>
                 {area.name}
@@ -98,7 +100,6 @@ export const ProductionFormAudit: React.FC<ProductionFormProps> = ({
             ))}
           </select>
         </div>
-
         <button
           type="submit"
           disabled={!selectedAuditorId || !selectedAreaId}
@@ -109,7 +110,6 @@ export const ProductionFormAudit: React.FC<ProductionFormProps> = ({
           Comenzar Evaluación
           <ArrowRight size={16} />
         </button>
-
         <button
           onClick={() => navigate("/")}
           className="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-5 

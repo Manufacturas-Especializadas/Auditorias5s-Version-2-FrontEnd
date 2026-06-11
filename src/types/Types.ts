@@ -45,3 +45,23 @@ export interface AllAuditor {
   fullName: string;
   isActive: boolean;
 }
+
+export interface AuditHistory {
+  auditId: number;
+  auditorName: string;
+  areaName: string;
+  moduleName: string;
+  auditDate: string;
+  finalScore: number;
+}
+
+export interface AuditAnswerPayload {
+  questionId: number;
+  score: number;
+}
+
+export interface CreateAuditPayload {
+  areaId: number;
+  auditorId: number;
+  answers: AuditAnswerPayload[];
+}

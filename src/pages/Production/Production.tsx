@@ -1,23 +1,38 @@
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { questionsService } from "../../api/services/QuestionsService";
+import { auditService } from "../../api/services/AuditService";
 import { ProductionFormAudit } from "../../components/Production/ProductionFormAudit";
-import { AuditResult } from "../../components/AuditResult/AuditResult";
 import { EvaluationWizard } from "../../components/EvaluationWizard/EvaluationWizard";
-import { PRODUCTION_5S_QUESTIONS } from "../../data/auditQuestions";
+import { AuditResult } from "../../components/AuditResult/AuditResult";
 
 export const Production = () => {
   const [currentStep, setCurrentStep] = useState(1);
+
   const [auditHeader, setAuditHeader] = useState<{
-    auditorName: string;
-    selectedArea: string;
+    auditorId: number;
+    areaId: number;
   } | null>(null);
   const [savedAnswers, setSavedAnswers] = useState<Record<number, number>>({});
 
-  const handleInitialDataSubmit = (data: {
-    auditorName: string;
-    selectedArea: string;
+  const [backendRawGroups, setBackendRawGroups] = useState<any[]>([]);
+
+  const handleInitialDataSubmit = async (data: {
+    auditorId: number;
+    areaId: number;
   }) => {
     setAuditHeader(data);
-    setCurrentStep(2);
+
+    try {
+      const dataGrouped = await questionsService.getByModuleGrouped(1);
+      setBackendRawGroups(dataGrouped);
+      setCurrentStep(2);
+    } catch {
+      toast.error("Error crítico", {
+        description: "No se pudieron precargar las preguntas de auditoría.",
+      });
+    }
   };
 
   const handleEvaluationFinish = (answers: Record<number, number>) => {
@@ -25,33 +40,57 @@ export const Production = () => {
     setCurrentStep(3);
   };
 
-  const handleSaveToDatabase = () => {
-    console.log("Guardando datos en SQL Server...", {
-      auditHeader,
-      savedAnswers,
+  const handleSaveToDatabase = async () => {
+    if (!auditHeader) return;
+
+    const answersPayload = Object.entries(savedAnswers).map(([qId, score]) => ({
+      questionId: Number(qId),
+      score: score,
+    }));
+
+    const completePayload = {
+      areaId: auditHeader.areaId,
+      auditorId: auditHeader.auditorId,
+      answers: answersPayload,
+    };
+
+    const savePromise = auditService.saveAudit(completePayload);
+
+    toast.promise(savePromise, {
+      loading:
+        "Consolidando auditoría y calculando promedios en base de datos...",
+      success: () => {
+        setCurrentStep(1);
+        setSavedAnswers({});
+        setAuditHeader(null);
+        return "Auditoría 5S guardada y archivada exitosamente.";
+      },
+      error: "Error al intentar guardar el reporte de auditoría.",
     });
-    alert("Auditoría guardada exitosamente en el servidor.");
   };
 
   return (
-    <div
-      className="w-full min-h-[calc(100vh-4rem)] flex flex-col items-center 
-      justify-center bg-slate-50 p-4 md:p-8"
-    >
+    <div className="w-full min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-slate-50 p-4 md:p-8">
       {currentStep === 1 && (
         <ProductionFormAudit onNextStep={handleInitialDataSubmit} />
       )}
 
-      {currentStep === 2 && (
-        <EvaluationWizard
-          categories={PRODUCTION_5S_QUESTIONS}
-          onFinish={handleEvaluationFinish}
-        />
-      )}
+      {currentStep === 2 &&
+        (backendRawGroups.length > 0 ? (
+          <EvaluationWizard
+            categories={backendRawGroups}
+            onFinish={handleEvaluationFinish}
+          />
+        ) : (
+          <div className="flex items-center justify-center text-slate-500 gap-2">
+            <Loader2 className="animate-spin" size={20} /> Estructurando
+            categorías...
+          </div>
+        ))}
 
-      {currentStep === 3 && (
+      {currentStep === 3 && backendRawGroups.length > 0 && (
         <AuditResult
-          categories={PRODUCTION_5S_QUESTIONS}
+          categories={backendRawGroups}
           answers={savedAnswers}
           onReset={() => setCurrentStep(1)}
           onSave={handleSaveToDatabase}
