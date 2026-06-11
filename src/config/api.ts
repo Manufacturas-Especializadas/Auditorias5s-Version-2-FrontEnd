@@ -8,6 +8,7 @@ export const API_CONFIG = {
   baseUrl: API_BASE_URL,
   endpoints: {
     audit: {
+      history: "/api/Audits/history",
       create: "/api/Audits/create",
     },
     modules: {
