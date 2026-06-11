@@ -24,7 +24,7 @@ export const Admin = () => {
       description:
         "Da de alta, edita y liga las líneas de manufactura o departamentos a sus respectivos módulos.",
       icon: Layers,
-      path: "",
+      path: "/administrador/areas",
     },
     {
       id: "questions",

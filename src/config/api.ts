@@ -14,7 +14,10 @@ export const API_CONFIG = {
       delete: "/api/Modules/delete/",
     },
     areas: {
+      getById: "/api/Areas/areas/",
       create: "/api/Areas/create",
+      update: "/api/Areas/update",
+      delete: "/api/Areas/delete/",
     },
   },
 };
