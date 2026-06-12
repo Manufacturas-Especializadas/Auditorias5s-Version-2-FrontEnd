@@ -80,19 +80,23 @@ export const Audits = () => {
         }),
     },
     {
-      header: "Promedio",
-      className: "w-28 text-center",
-      accessor: (row) => (
-        <span
-          className={`inline-flex items-center font-bold px-2.5 py-0.5 rounded-md text-sm ${
-            row.finalScore >= 4.0
-              ? "bg-emerald-50 text-emerald-700"
-              : "bg-amber-50 text-amber-700"
-          }`}
-        >
-          {Number(row.finalScore).toFixed(1)}
-        </span>
-      ),
+      header: "Puntaje Final",
+      className: "w-36 text-center",
+      accessor: (row) => {
+        const scoreEscala100 = Number(row.finalScore) * 20;
+
+        return (
+          <span
+            className={`inline-flex items-center font-bold px-2.5 py-0.5 rounded-md text-sm ${
+              scoreEscala100 >= 85.0
+                ? "bg-emerald-50 text-emerald-700"
+                : "bg-amber-50 text-amber-700"
+            }`}
+          >
+            {scoreEscala100.toFixed(2)}
+          </span>
+        );
+      },
     },
     {
       header: "Acciones",
