@@ -80,17 +80,17 @@ export const Audits = () => {
         }),
     },
     {
-      header: "Resultado",
+      header: "Promedio",
       className: "w-28 text-center",
       accessor: (row) => (
         <span
           className={`inline-flex items-center font-bold px-2.5 py-0.5 rounded-md text-sm ${
-            row.finalScore >= 85
+            row.finalScore >= 4.0
               ? "bg-emerald-50 text-emerald-700"
               : "bg-amber-50 text-amber-700"
           }`}
         >
-          {row.finalScore}%
+          {Number(row.finalScore).toFixed(1)}
         </span>
       ),
     },
