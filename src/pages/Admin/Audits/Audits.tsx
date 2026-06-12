@@ -45,7 +45,7 @@ export const Audits = () => {
     };
 
     toast.promise(downloadPromise(), {
-      loading: "Compilando celdas y aplicando estilos corporativos...",
+      loading: "Generando reporte...",
       success: "Reporte Excel generado y descargado con éxito.",
       error: "Error al procesar el archivo en el servidor.",
     });
