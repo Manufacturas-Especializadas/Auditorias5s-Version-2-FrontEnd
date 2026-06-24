@@ -12,6 +12,7 @@ export const API_CONFIG = {
       downloadExcel: "/api/Audits/download-excel/",
       create: "/api/Audits/create",
       update: "/api/Audits/update/",
+      delete: "/api/Audits/delete/",
     },
     modules: {
       getAll: "/api/Modules/all",
