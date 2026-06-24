@@ -1,15 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { SCategory } from "../../data/auditQuestions";
 import { ArrowLeft, CheckCircle2, ArrowRight } from "lucide-react";
 
 interface Props {
   categories: SCategory[];
+  initialAnswers?: Record<number, number>;
   onFinish: (answers: Record<number, number>) => void;
 }
 
-export const EvaluationWizard = ({ categories, onFinish }: Props) => {
+export const EvaluationWizard = ({
+  categories,
+  initialAnswers = {},
+  onFinish,
+}: Props) => {
   const [currentSIndex, setCurrentSIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [answers, setAnswers] =
+    useState<Record<number, number>>(initialAnswers);
+
+  useEffect(() => {
+    if (Object.keys(initialAnswers).length > 0) {
+      setAnswers(initialAnswers);
+    }
+  }, [initialAnswers]);
 
   const currentCategory = categories[currentSIndex];
 
@@ -55,8 +67,8 @@ export const EvaluationWizard = ({ categories, onFinish }: Props) => {
             </p>
           </div>
           <span
-            className="bg-slate-700 text-sky-400 font-mono text-xs md:text-sm px-3 
-            py-1.5 rounded-md font-bold"
+            className="bg-slate-700 text-sky-400 font-mono text-xs md:text-sm 
+            px-3 py-1.5 rounded-md font-bold"
           >
             S: {currentSIndex + 1} / {categories.length}
           </span>
@@ -75,8 +87,8 @@ export const EvaluationWizard = ({ categories, onFinish }: Props) => {
             >
               <div className="flex items-start gap-4">
                 <span
-                  className="shrink-0 bg-slate-100 text-slate-700 font-bold rounded-full 
-                  w-7 h-7 flex items-center justify-center text-sm mt-0.5"
+                  className="shrink-0 bg-slate-100 text-slate-700 font-bold 
+                  rounded-full w-7 h-7 flex items-center justify-center text-sm mt-0.5"
                 >
                   {index + 1}
                 </span>
@@ -98,13 +110,8 @@ export const EvaluationWizard = ({ categories, onFinish }: Props) => {
                           type="button"
                           onClick={() => handleScoreSelect(question.id, score)}
                           className={`
-                            w-11 h-11 rounded-full border text-base font-medium flex items-center 
-                            justify-center transition-all duration-200 active:scale-90 hover:cursor-pointer
-                            ${
-                              isSelected
-                                ? "bg-slate-800 border-slate-800 text-white shadow-md font-bold"
-                                : "bg-white border-gray-200 text-slate-700 hover:border-slate-400 hover:bg-slate-50"
-                            }
+                            w-11 h-11 rounded-full border text-base font-medium flex items-center justify-center transition-all duration-200 active:scale-90 hover:cursor-pointer
+                            ${isSelected ? "bg-slate-800 border-slate-800 text-white shadow-md font-bold" : "bg-white border-gray-200 text-slate-700 hover:border-slate-400 hover:bg-slate-50"}
                           `}
                         >
                           {score}
@@ -139,15 +146,11 @@ export const EvaluationWizard = ({ categories, onFinish }: Props) => {
           type="button"
           onClick={handleNext}
           disabled={!isCurrentSComplete}
-          className={`
-            flex items-center gap-2 text-sm font-semibold py-2.5 px-5 rounded-xl transition-all 
-            duration-200 shadow-sm
-            ${
-              isCurrentSComplete
-                ? "bg-slate-800 hover:bg-slate-900 text-white active:scale-95 cursor-pointer"
-                : "bg-gray-200 text-gray-400 cursor-not-allowed"
-            }
-          `}
+          className={`flex items-center gap-2 text-sm font-semibold py-2.5 px-5 rounded-xl transition-all duration-200 shadow-sm ${
+            isCurrentSComplete
+              ? "bg-slate-800 hover:bg-slate-900 text-white active:scale-95 cursor-pointer"
+              : "bg-gray-200 text-gray-400 cursor-not-allowed"
+          }`}
         >
           {currentSIndex === categories.length - 1 ? (
             <>
