@@ -1,5 +1,6 @@
 import { API_CONFIG } from "../../config/api";
 import type {
+  AuditDetails,
   AuditHistory,
   CreateAuditPayload,
   UpdateAuditAnswer,
@@ -8,6 +9,7 @@ import { apiClient } from "../client";
 
 class AuditService {
   private historyEndpoint = API_CONFIG.endpoints.audit.history;
+  private getByIdEndpoint = API_CONFIG.endpoints.audit.getById;
   private downloadExcelEndpoint = API_CONFIG.endpoints.audit.downloadExcel;
   private createEndpoint = API_CONFIG.endpoints.audit.create;
   private updateEndpoint = API_CONFIG.endpoints.audit.update;
@@ -15,6 +17,10 @@ class AuditService {
 
   async getHistory(): Promise<AuditHistory[]> {
     return apiClient.get<AuditHistory[]>(this.historyEndpoint);
+  }
+
+  async getById(auditId: number): Promise<AuditDetails> {
+    return apiClient.get<AuditDetails>(`${this.getByIdEndpoint}${auditId}`);
   }
 
   async downloadExcelReport(auditId: number): Promise<Blob> {
