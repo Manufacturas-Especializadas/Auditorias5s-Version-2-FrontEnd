@@ -3,9 +3,9 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { questionsService } from "../../api/services/QuestionsService";
 import { auditService } from "../../api/services/AuditService";
-import { ProductionFormAudit } from "../../components/Production/ProductionFormAudit";
 import { EvaluationWizard } from "../../components/EvaluationWizard/EvaluationWizard";
 import { AuditResult } from "../../components/AuditResult/AuditResult";
+import { GenericFormAudit } from "../../components/GenericFormAudit/GenericFormAudit";
 
 export const Production = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -70,9 +70,17 @@ export const Production = () => {
   };
 
   return (
-    <div className="w-full min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center bg-slate-50 p-4 md:p-8">
+    <div
+      className="w-full min-h-[calc(100vh-4rem)] flex flex-col items-center 
+      justify-center bg-slate-50 p-4 md:p-8"
+    >
       {currentStep === 1 && (
-        <ProductionFormAudit onNextStep={handleInitialDataSubmit} />
+        <GenericFormAudit
+          moduleId={1}
+          title="Nueva auditoría para Producción"
+          subtitle="Por favor ingresa los datos correspondientes a la línea de manufactura"
+          onNextStep={handleInitialDataSubmit}
+        />
       )}
 
       {currentStep === 2 &&
