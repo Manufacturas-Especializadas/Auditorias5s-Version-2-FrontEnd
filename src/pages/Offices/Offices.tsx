@@ -23,7 +23,6 @@ export const Offices = () => {
     setAuditHeader(data);
 
     try {
-      // Inyección del ID 3 (Módulo de Oficinas)
       const dataGrouped = await questionsService.getByModuleGrouped(3);
       setBackendRawGroups(dataGrouped);
       setCurrentStep(2);
