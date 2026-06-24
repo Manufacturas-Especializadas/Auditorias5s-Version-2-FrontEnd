@@ -65,3 +65,8 @@ export interface CreateAuditPayload {
   auditorId: number;
   answers: AuditAnswerPayload[];
 }
+
+export interface UpdateAuditAnswer {
+  questionId: number;
+  score: number;
+}
