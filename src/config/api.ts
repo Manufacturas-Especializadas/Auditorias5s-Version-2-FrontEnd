@@ -9,6 +9,7 @@ export const API_CONFIG = {
   endpoints: {
     audit: {
       history: "/api/Audits/history",
+      getById: "/api/Audits/getById/",
       downloadExcel: "/api/Audits/download-excel/",
       create: "/api/Audits/create",
       update: "/api/Audits/update/",
