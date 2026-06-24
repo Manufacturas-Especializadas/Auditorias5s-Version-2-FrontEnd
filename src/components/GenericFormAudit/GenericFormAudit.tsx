@@ -1,4 +1,4 @@
-import React, { useState, type SyntheticEvent } from "react";
+import React, { useState, useEffect, type SyntheticEvent } from "react";
 import { useAreas } from "../../hooks/useAreas";
 import { useAuditors } from "../../hooks/useAuditors";
 import { Loader2, ArrowRight, ArrowLeft } from "lucide-react";
@@ -8,22 +8,39 @@ interface GenericFormProps {
   moduleId: number;
   title: string;
   subtitle: string;
+  isEditing?: boolean;
+  initialAuditorId?: number;
+  initialAreaId?: number;
   onNextStep: (data: { auditorId: number; areaId: number }) => void;
+  onCancel?: () => void;
 }
 
 export const GenericFormAudit: React.FC<GenericFormProps> = ({
   moduleId,
   title,
   subtitle,
+  isEditing = false,
+  initialAuditorId,
+  initialAreaId,
   onNextStep,
+  onCancel,
 }) => {
   const { areas, loading: loadingAreas } = useAreas(moduleId);
   const { auditors, loading: loadingAuditors } = useAuditors();
 
-  const [selectedAuditorId, setSelectedAuditorId] = useState<number | "">("");
-  const [selectedAreaId, setSelectedAreaId] = useState<number | "">("");
+  const [selectedAuditorId, setSelectedAuditorId] = useState<number | "">(
+    initialAuditorId ?? "",
+  );
+  const [selectedAreaId, setSelectedAreaId] = useState<number | "">(
+    initialAreaId ?? "",
+  );
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (initialAuditorId) setSelectedAuditorId(initialAuditorId);
+    if (initialAreaId) setSelectedAreaId(initialAreaId);
+  }, [initialAuditorId, initialAreaId]);
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,8 +63,8 @@ export const GenericFormAudit: React.FC<GenericFormProps> = ({
 
   return (
     <div
-      className="w-full max-w-xl bg-white rounded-2xl shadow-xl border border-gray-100 
-      p-6 md:p-8 text-left architecture-fade-in"
+      className="w-full max-w-xl bg-white rounded-2xl shadow-xl border 
+      border-gray-100 p-6 md:p-8 text-left architecture-fade-in"
     >
       <header className="mb-6 space-y-1">
         <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
@@ -90,7 +107,9 @@ export const GenericFormAudit: React.FC<GenericFormProps> = ({
             onChange={(e) =>
               setSelectedAreaId(e.target.value ? Number(e.target.value) : "")
             }
-            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-slate-700 cursor-pointer"
+            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl 
+            text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-slate-700 
+            cursor-pointer"
           >
             <option value="">Selecciona una opción</option>
             {areas.map((area) => (
@@ -100,25 +119,53 @@ export const GenericFormAudit: React.FC<GenericFormProps> = ({
             ))}
           </select>
         </div>
-        <button
-          type="submit"
-          disabled={!selectedAuditorId || !selectedAreaId}
-          className="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 
-          px-5 rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-sm 
-          disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-        >
-          Comenzar Evaluación
-          <ArrowRight size={16} />
-        </button>
-        <button
-          onClick={() => navigate("/")}
-          className="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-5 
-          rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-sm 
-          disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-        >
-          Salir
-          <ArrowLeft size={16} />
-        </button>
+
+        {isEditing ? (
+          <div className="flex gap-3 pt-2">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="w-1/3 bg-white border border-slate-200 text-slate-700 
+              hover:bg-slate-50 font-semibold py-3 px-5 rounded-xl text-sm transition-all 
+              shadow-sm cursor-pointer"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              disabled={!selectedAuditorId || !selectedAreaId}
+              className="w-2/3 bg-slate-800 hover:bg-slate-900 text-white font-semibold 
+              py-3 px-5 rounded-xl text-sm transition-all flex items-center justify-center 
+              gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              Revisar Calificaciones
+              <ArrowRight size={16} />
+            </button>
+          </div>
+        ) : (
+          <>
+            <button
+              type="submit"
+              disabled={!selectedAuditorId || !selectedAreaId}
+              className="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold 
+              py-3 px-5 rounded-xl text-sm transition-all flex items-center justify-center 
+              gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              Comenzar Evaluación
+              <ArrowRight size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="w-full bg-white border border-slate-200 hover:bg-slate-50 
+              text-slate-700 font-semibold py-3 px-5 rounded-xl text-sm transition-all flex 
+              items-center justify-center gap-2 shadow-sm cursor-pointer"
+            >
+              Salir
+              <ArrowLeft size={16} />
+            </button>
+          </>
+        )}
       </form>
     </div>
   );
