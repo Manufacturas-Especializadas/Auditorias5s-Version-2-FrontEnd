@@ -70,3 +70,11 @@ export interface UpdateAuditAnswer {
   questionId: number;
   score: number;
 }
+
+export interface AuditDetails {
+  auditId: number;
+  auditorId: number;
+  areaId: number;
+  moduleId: number;
+  answers: { questionId: number; score: number }[];
+}
