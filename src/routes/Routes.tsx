@@ -9,6 +9,7 @@ import { Areas } from "../pages/Admin/Areas/Areas";
 import { Questions } from "../pages/Admin/Questions/Questions";
 import { Auditors } from "../pages/Admin/Auditors/Auditors";
 import { Audits } from "../pages/Admin/Audits/Audits";
+import { EditAudit } from "../pages/Admin/Audits/EditAudit";
 
 export const MyRoutes = () => {
   return (
@@ -27,6 +28,10 @@ export const MyRoutes = () => {
       {/* Administrador */}
       <Route path="/administrador" element={<Admin />} />
       <Route path="/administrador/auditorias" element={<Audits />} />
+      <Route
+        path="/administrador/auditorias/editar/:id"
+        element={<EditAudit />}
+      />
       <Route path="/administrador/modulos" element={<Modules />} />
       <Route path="/administrador/areas" element={<Areas />} />
       <Route path="/administrador/preguntas" element={<Questions />} />
