@@ -1,21 +1,21 @@
 import { useState } from "react";
-import { useAuditHistory } from "../../../hooks/useAuditHistory";
+import { useAudits } from "../../../hooks/useAudits";
 import { Table, type Column } from "../../../components/Table/Table";
 import type { AuditHistory } from "../../../types/Types";
-import { ArrowLeft, Download, Loader2 } from "lucide-react";
+import { ArrowLeft, Download, Loader2, Edit, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { auditService } from "../../../api/services/AuditService";
 import { useNavigate } from "react-router-dom";
 
 export const Audits = () => {
-  const { history, loading } = useAuditHistory();
+  const { audits, loading, removeAudit } = useAudits();
 
   const [filterAuditor, setFilterAuditor] = useState("");
   const [filterDate, setFilterDate] = useState("");
 
   const navigate = useNavigate();
 
-  const filteredData = history.filter((audit) => {
+  const filteredData = audits.filter((audit) => {
     const matchesAuditor = audit.auditorName
       .toLowerCase()
       .includes(filterAuditor.toLowerCase());
@@ -100,25 +100,52 @@ export const Audits = () => {
     },
     {
       header: "Acciones",
-      className: "text-center w-24",
+      className: "text-center w-36",
       accessor: (row) => (
-        <button
-          onClick={() => handleDownloadExcel(row.auditId)}
-          className="p-2 text-slate-500 hover:text-sky-600 hover:bg-sky-50 rounded-xl 
-          transition-colors cursor-pointer"
-          title="Descargar reporte Excel"
-        >
-          <Download size={18} />
-        </button>
+        <div className="flex items-center justify-center gap-1">
+          <button
+            onClick={() => handleDownloadExcel(row.auditId)}
+            className="p-1.5 text-slate-400 hover:text-emerald-600 
+            hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer"
+            title="Descargar reporte Excel"
+          >
+            <Download size={18} />
+          </button>
+
+          <button
+            onClick={() =>
+              navigate(`/administrador/auditorias/editar/${row.auditId}`)
+            }
+            className="p-1.5 text-slate-400 hover:text-sky-600 hover:bg-sky-50 
+            rounded-lg transition-colors cursor-pointer"
+            title="Editar Auditoría"
+          >
+            <Edit size={18} />
+          </button>
+
+          <button
+            onClick={() => {
+              if (
+                window.confirm(
+                  `¿Estás seguro de eliminar permanentemente la auditoría de ${row.areaName}?`,
+                )
+              ) {
+                removeAudit(row.auditId);
+              }
+            }}
+            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+            title="Eliminar Auditoría"
+          >
+            <Trash2 size={18} />
+          </button>
+        </div>
       ),
     },
   ];
+
   return (
     <div className="w-full max-w-6xl mx-auto space-y-6 p-4">
-      <div
-        className="flex justify-end gap-4 bg-white p-4 rounded-xl border border-slate-100 
-        shadow-sm"
-      >
+      <div className="flex justify-end gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
         <div className="flex flex-col text-left gap-1">
           <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">
             Filtrar por auditor
@@ -128,8 +155,7 @@ export const Audits = () => {
             placeholder="Nombre del auditor"
             value={filterAuditor}
             onChange={(e) => setFilterAuditor(e.target.value)}
-            className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-700 
-            focus:outline-none focus:ring-1 focus:ring-slate-700"
+            className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-700"
           />
         </div>
         <div className="flex flex-col text-left gap-1">
@@ -140,8 +166,7 @@ export const Audits = () => {
             type="date"
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
-            className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-700 
-            focus:outline-none focus:ring-1 focus:ring-slate-700"
+            className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-700"
           />
         </div>
       </div>
@@ -149,8 +174,7 @@ export const Audits = () => {
       <button
         type="button"
         onClick={() => navigate(-1)}
-        className="text-slate-500 hover:text-blue-600 flex items-center 
-          gap-2 mb-4 transition-colors font-medium text-sm cursor-pointer"
+        className="text-slate-500 hover:text-blue-600 flex items-center gap-2 mb-4 transition-colors font-medium text-sm cursor-pointer"
       >
         <ArrowLeft size={20} />
         Volver
