@@ -11,6 +11,7 @@ class AuditService {
   private downloadExcelEndpoint = API_CONFIG.endpoints.audit.downloadExcel;
   private createEndpoint = API_CONFIG.endpoints.audit.create;
   private updateEndpoint = API_CONFIG.endpoints.audit.update;
+  private deleteEndpoint = API_CONFIG.endpoints.audit.delete;
 
   async getHistory(): Promise<AuditHistory[]> {
     return apiClient.get<AuditHistory[]>(this.historyEndpoint);
@@ -44,6 +45,10 @@ class AuditService {
       areaId,
       answers,
     });
+  }
+
+  async delete(id: number): Promise<any> {
+    return apiClient.delete<any>(`${this.deleteEndpoint}${id}`);
   }
 }
 
