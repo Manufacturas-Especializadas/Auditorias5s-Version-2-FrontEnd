@@ -11,6 +11,7 @@ export const API_CONFIG = {
       history: "/api/Audits/history",
       downloadExcel: "/api/Audits/download-excel/",
       create: "/api/Audits/create",
+      update: "/api/Audits/update/",
     },
     modules: {
       getAll: "/api/Modules/all",
