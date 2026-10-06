@@ -1,0 +1,48 @@
+name: Azure Static Web Apps CI/CD - Ramos
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+
+jobs:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build and Deploy Ramos
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+
+      - name: Build And Deploy Ramos
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        env:
+          VITE_API_BASE_URL: https://app-mesa-auditorias5s-api-ramos-prod-cacnbnawfxeud7aw.southcentralus-01.azurewebsites.net
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AUDITORIAS5S_RAMOS_SWA_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/"
+          api_location: ""
+          output_location: "dist"
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Ramos Pull Request
+
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AUDITORIAS5S_RAMOS_SWA_TOKEN }}
+          action: "close"
