@@ -1,15 +1,23 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/favicon.ico"]
+    "exclude": [
+      "/assets/*",
+      "/favicon.ico"
+    ]
   },
   "networking": {
-    "allowedIpRanges": ["200.76.19.130/32"]
+    "allowedIpRanges": [
+      "200.76.19.130/32",
+      "189.206.209.46/32"
+    ]
   },
   "routes": [
     {
       "route": "/*",
-      "allowedRoles": ["anonymous"]
+      "allowedRoles": [
+        "anonymous"
+      ]
     }
   ]
 }
